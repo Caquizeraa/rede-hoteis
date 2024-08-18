@@ -62,7 +62,6 @@ CREATE TABLE IF NOT EXISTS `rede-hoteis`.`Reserva` (
   `dataCheckIn` DATE NOT NULL,
   `dataCheckOut` DATE NULL,
   `idCliente` INT(6) NOT NULL,
-  -- INDEX `fk_Reserva_Cliente1_idx` (`Cliente_CPF` ASC) VISIBLE,
   CONSTRAINT pk_Reserva PRIMARY KEY (`idReserva`))
 ENGINE = InnoDB;
 
@@ -81,8 +80,8 @@ CREATE TABLE IF NOT EXISTS `rede-hoteis`.`Unidade` (
   `estado` VARCHAR(2) NOT NULL,
   `dataInicio` DATE NOT NULL,
   `idGerente` INT(6) NOT NULL,
-  CONSTRAINT pk_Unidade PRIMARY KEY (`idUnidade`),
-  INDEX `fk_Unidade_Funcionario1_idx` (`idGerente` ASC) VISIBLE)
+  CONSTRAINT pk_Unidade PRIMARY KEY (`idUnidade`)
+  )
 ENGINE = InnoDB;
 
 
@@ -93,9 +92,8 @@ CREATE TABLE IF NOT EXISTS `rede-hoteis`.`Atrativo` (
   `idAtrativo` INT(3) NOT NULL AUTO_INCREMENT,
   `nomeAtrativo` VARCHAR(40) NOT NULL,
   `idUnidade` INT(3) NOT NULL,
-  CONSTRAINT pk_Atrativo PRIMARY KEY (`idAtrativo`),
-  INDEX `fk_Atrativo_Unidade1_idx` (`idUnidade` ASC) VISIBLE,
-  UNIQUE INDEX `Unidade_idUnidade_UNIQUE` (`idUnidade` ASC) VISIBLE)
+  `numAtrativo` INT(3) NOT NULL,
+  CONSTRAINT pk_Atrativo PRIMARY KEY (`idAtrativo`))
 ENGINE = InnoDB;
 
 
@@ -109,9 +107,7 @@ CREATE TABLE IF NOT EXISTS `rede-hoteis`.`Quarto` (
   `numCamas` INT(1) NOT NULL,
   `disponibilidade` VARCHAR(1) NOT NULL,
   `tipoQuarto` VARCHAR(7) NOT NULL,
-  CONSTRAINT pk_Quarto PRIMARY KEY (`idQuarto`),
-  INDEX `fk_Quarto_Unidade1_idx` (`idUnidade` ASC) VISIBLE,
-  UNIQUE INDEX `Unidade_idUnidade_UNIQUE` (`idUnidade` ASC) VISIBLE)
+  CONSTRAINT pk_Quarto PRIMARY KEY (`idQuarto`))
 ENGINE = InnoDB;
 
 
@@ -121,9 +117,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `rede-hoteis`.`Telefone` (
   `idCliente` INT(6) NOT NULL,
   `telefone` VARCHAR(11) NOT NULL,
-  CONSTRAINT pk_Telefone PRIMARY KEY (`idCliente`, `telefone`),
-  -- INDEX `fk_Telefone_Cliente1_idx` (`Cliente_CPF` ASC) VISIBLE,
-  UNIQUE INDEX `telefone_UNIQUE` (`telefone` ASC) VISIBLE)
+  CONSTRAINT pk_Telefone PRIMARY KEY (`idCliente`, `telefone`))
 ENGINE = InnoDB;
 
 
@@ -154,9 +148,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `rede-hoteis`.`trabalha-em-restaurante` (
   `idAtrativo` INT(3) NOT NULL,
   `idFunc` INT(6) NOT NULL,
-  CONSTRAINT pk_trabalhaRestaurante PRIMARY KEY (`idAtrativo`, `idFunc`),
-  INDEX `fk_Restaurante_has_Funcionario_Funcionario1_idx` (`idFunc` ASC) VISIBLE,
-  INDEX `fk_Restaurante_has_Funcionario_Restaurante1_idx` (`idAtrativo` ASC) VISIBLE)
+  CONSTRAINT pk_trabalhaRestaurante PRIMARY KEY (`idAtrativo`, `idFunc`))
 ENGINE = InnoDB;
 
 
@@ -166,9 +158,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `rede-hoteis`.`trabalha-em-academia` (
   `idAtrativo` INT(3) NOT NULL,
   `idFunc` INT(6) NOT NULL,
-  CONSTRAINT pk_trabalhaAcademia PRIMARY KEY (`idAtrativo`, `idFunc`),
-  INDEX `fk_Academia_has_Funcionario_Funcionario1_idx` (`idFunc` ASC) VISIBLE,
-  INDEX `fk_Academia_has_Funcionario_Academia1_idx` (`idAtrativo` ASC) VISIBLE)
+  CONSTRAINT pk_trabalhaAcademia PRIMARY KEY (`idAtrativo`, `idFunc`))
 ENGINE = InnoDB;
 
 
@@ -178,9 +168,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `rede-hoteis`.`é-empregado-por` (
   `idUnidade` INT(3) NOT NULL,
   `idFunc` INT(6) NOT NULL,
-  CONSTRAINT pk_EmpregadoPor PRIMARY KEY (`idUnidade`, `idFunc`),
-  INDEX `fk_Unidade_has_Funcionario_Funcionario1_idx` (`idFunc` ASC) VISIBLE,
-  INDEX `fk_Unidade_has_Funcionario_Unidade1_idx` (`idUnidade` ASC) VISIBLE)
+  CONSTRAINT pk_EmpregadoPor PRIMARY KEY (`idUnidade`, `idFunc`))
 ENGINE = InnoDB;
 
 
@@ -190,9 +178,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `rede-hoteis`.`engloba` (
   `idReserva` VARCHAR(8) NOT NULL,
   `idQuarto` INT(3) NOT NULL,
-  CONSTRAINT pk_Engloba PRIMARY KEY (`idReserva`, `idQuarto`),
-  INDEX `fk_Reserva_has_Quarto_Quarto1_idx` (`idQuarto` ASC) VISIBLE,
-  INDEX `fk_Reserva_has_Quarto_Reserva1_idx` (`idReserva` ASC) VISIBLE)
+  CONSTRAINT pk_Engloba PRIMARY KEY (`idReserva`, `idQuarto`))
 ENGINE = InnoDB;
 
 
