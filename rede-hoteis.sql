@@ -24,7 +24,7 @@ USE `rede-hoteis` ;
 CREATE TABLE IF NOT EXISTS `rede-hoteis`.`Funcionario` (
   `idFunc` INT(6) NOT NULL AUTO_INCREMENT,
   `nome` VARCHAR(80) NOT NULL,
-  `salario` REAL(8,2) NOT NULL DEFAULT 1412.00,
+  `salario` REAL(8,2) NOT NULL,
   `logradouro` VARCHAR(40) NOT NULL,
   `numero` INT(4) NOT NULL,
   `CEP` VARCHAR(8) NOT NULL,
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `rede-hoteis`.`Funcionario` (
   `cidade` VARCHAR(30) NOT NULL,
   `estado` VARCHAR(2) NOT NULL,
   `tipoFuncionario` VARCHAR(12) NOT NULL,
-  PRIMARY KEY (`idFunc`))
+  CONSTRAINT pk_Funcionario PRIMARY KEY (`idFunc`))
 ENGINE = InnoDB;
 
 
@@ -40,6 +40,7 @@ ENGINE = InnoDB;
 -- Table `rede-hoteis`.`Cliente`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `rede-hoteis`.`Cliente` (
+  `idCliente` INT(6) NOT NULL AUTO_INCREMENT,
   `CPF` VARCHAR(11) NOT NULL,
   `nome` VARCHAR(80) NOT NULL,
   `logradouro` VARCHAR(40) NOT NULL,
@@ -48,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `rede-hoteis`.`Cliente` (
   `bairro` VARCHAR(30) NOT NULL,
   `cidade` VARCHAR(30) NOT NULL,
   `estado` VARCHAR(2) NOT NULL,
-  PRIMARY KEY (`CPF`))
+  CONSTRAINT pk_Cliente PRIMARY KEY (`idCliente`))
 ENGINE = InnoDB;
 
 
@@ -60,14 +61,9 @@ CREATE TABLE IF NOT EXISTS `rede-hoteis`.`Reserva` (
   `valorTotal` REAL(8,2) NOT NULL,
   `dataCheckIn` DATE NOT NULL,
   `dataCheckOut` DATE NULL,
-  `Cliente_CPF` VARCHAR(11) NOT NULL,
-  INDEX `fk_Reserva_Cliente1_idx` (`Cliente_CPF` ASC) VISIBLE,
-  PRIMARY KEY (`idReserva`),
-  CONSTRAINT `fk_Reserva_Cliente1`
-    FOREIGN KEY (`Cliente_CPF`)
-    REFERENCES `rede-hoteis`.`Cliente` (`CPF`)
-    ON DELETE RESTRICT
-    ON UPDATE RESTRICT)
+  `idCliente` INT(6) NOT NULL,
+  -- INDEX `fk_Reserva_Cliente1_idx` (`Cliente_CPF` ASC) VISIBLE,
+  CONSTRAINT pk_Reserva PRIMARY KEY (`idReserva`))
 ENGINE = InnoDB;
 
 
@@ -85,13 +81,8 @@ CREATE TABLE IF NOT EXISTS `rede-hoteis`.`Unidade` (
   `estado` VARCHAR(2) NOT NULL,
   `dataInicio` DATE NOT NULL,
   `idGerente` INT(6) NOT NULL,
-  PRIMARY KEY (`idUnidade`),
-  INDEX `fk_Unidade_Funcionario1_idx` (`idGerente` ASC) VISIBLE,
-  CONSTRAINT `fk_Unidade_Funcionario1`
-    FOREIGN KEY (`idGerente`)
-    REFERENCES `rede-hoteis`.`Funcionario` (`idFunc`)
-    ON DELETE RESTRICT
-    ON UPDATE RESTRICT)
+  CONSTRAINT pk_Unidade PRIMARY KEY (`idUnidade`),
+  INDEX `fk_Unidade_Funcionario1_idx` (`idGerente` ASC) VISIBLE)
 ENGINE = InnoDB;
 
 
@@ -102,14 +93,9 @@ CREATE TABLE IF NOT EXISTS `rede-hoteis`.`Atrativo` (
   `idAtrativo` INT(3) NOT NULL AUTO_INCREMENT,
   `nomeAtrativo` VARCHAR(40) NOT NULL,
   `idUnidade` INT(3) NOT NULL,
-  PRIMARY KEY (`idAtrativo`),
+  CONSTRAINT pk_Atrativo PRIMARY KEY (`idAtrativo`),
   INDEX `fk_Atrativo_Unidade1_idx` (`idUnidade` ASC) VISIBLE,
-  UNIQUE INDEX `Unidade_idUnidade_UNIQUE` (`idUnidade` ASC) VISIBLE,
-  CONSTRAINT `fk_Atrativo_Unidade1`
-    FOREIGN KEY (`idUnidade`)
-    REFERENCES `rede-hoteis`.`Unidade` (`idUnidade`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
+  UNIQUE INDEX `Unidade_idUnidade_UNIQUE` (`idUnidade` ASC) VISIBLE)
 ENGINE = InnoDB;
 
 
@@ -120,17 +106,12 @@ CREATE TABLE IF NOT EXISTS `rede-hoteis`.`Quarto` (
   `idQuarto` INT(3) NOT NULL AUTO_INCREMENT,
   `idUnidade` INT(3) NOT NULL,
   `numQuarto` INT(3) NOT NULL,
-  `numCamas` INT(1) NOT NULL DEFAULT 1,
+  `numCamas` INT(1) NOT NULL,
   `disponibilidade` VARCHAR(1) NOT NULL,
-  `tipoQuarto` VARCHAR(7) NOT NULL DEFAULT 'Simples',
-  PRIMARY KEY (`idQuarto`),
+  `tipoQuarto` VARCHAR(7) NOT NULL,
+  CONSTRAINT pk_Quarto PRIMARY KEY (`idQuarto`),
   INDEX `fk_Quarto_Unidade1_idx` (`idUnidade` ASC) VISIBLE,
-  UNIQUE INDEX `Unidade_idUnidade_UNIQUE` (`idUnidade` ASC) VISIBLE,
-  CONSTRAINT `fk_Quarto_Unidade1`
-    FOREIGN KEY (`idUnidade`)
-    REFERENCES `rede-hoteis`.`Unidade` (`idUnidade`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
+  UNIQUE INDEX `Unidade_idUnidade_UNIQUE` (`idUnidade` ASC) VISIBLE)
 ENGINE = InnoDB;
 
 
@@ -138,16 +119,11 @@ ENGINE = InnoDB;
 -- Table `rede-hoteis`.`Telefone`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `rede-hoteis`.`Telefone` (
-  `Cliente_CPF` VARCHAR(11) NOT NULL,
+  `idCliente` INT(6) NOT NULL,
   `telefone` VARCHAR(11) NOT NULL,
-  PRIMARY KEY (`Cliente_CPF`, `telefone`),
-  INDEX `fk_Telefone_Cliente1_idx` (`Cliente_CPF` ASC) VISIBLE,
-  UNIQUE INDEX `telefone_UNIQUE` (`telefone` ASC) VISIBLE,
-  CONSTRAINT `fk_Telefone_Cliente1`
-    FOREIGN KEY (`Cliente_CPF`)
-    REFERENCES `rede-hoteis`.`Cliente` (`CPF`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
+  CONSTRAINT pk_Telefone PRIMARY KEY (`idCliente`, `telefone`),
+  -- INDEX `fk_Telefone_Cliente1_idx` (`Cliente_CPF` ASC) VISIBLE,
+  UNIQUE INDEX `telefone_UNIQUE` (`telefone` ASC) VISIBLE)
 ENGINE = InnoDB;
 
 
@@ -157,12 +133,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `rede-hoteis`.`Academia` (
   `idAtrativo` INT(3) NOT NULL,
   `numAparelhos` INT(3) NOT NULL,
-  PRIMARY KEY (`idAtrativo`),
-  CONSTRAINT `fk_Academia_Atrativo1`
-    FOREIGN KEY (`idAtrativo`)
-    REFERENCES `rede-hoteis`.`Atrativo` (`idAtrativo`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
+  CONSTRAINT pk_Academia PRIMARY KEY (`idAtrativo`))
 ENGINE = InnoDB;
 
 
@@ -173,12 +144,7 @@ CREATE TABLE IF NOT EXISTS `rede-hoteis`.`Restaurante` (
   `idAtrativo` INT(3) NOT NULL,
   `estrelas` INT(1) NOT NULL,
   `numMesas` INT(3) NOT NULL,
-  PRIMARY KEY (`idAtrativo`),
-  CONSTRAINT `fk_Restaurante_Atrativo1`
-    FOREIGN KEY (`idAtrativo`)
-    REFERENCES `rede-hoteis`.`Atrativo` (`idAtrativo`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
+  CONSTRAINT pk_Restaurante PRIMARY KEY (`idAtrativo`))
 ENGINE = InnoDB;
 
 
@@ -188,19 +154,9 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `rede-hoteis`.`trabalha-em-restaurante` (
   `idAtrativo` INT(3) NOT NULL,
   `idFunc` INT(6) NOT NULL,
-  PRIMARY KEY (`idAtrativo`, `idFunc`),
+  CONSTRAINT pk_trabalhaRestaurante PRIMARY KEY (`idAtrativo`, `idFunc`),
   INDEX `fk_Restaurante_has_Funcionario_Funcionario1_idx` (`idFunc` ASC) VISIBLE,
-  INDEX `fk_Restaurante_has_Funcionario_Restaurante1_idx` (`idAtrativo` ASC) VISIBLE,
-  CONSTRAINT `fk_Restaurante_has_Funcionario_Restaurante1`
-    FOREIGN KEY (`idAtrativo`)
-    REFERENCES `rede-hoteis`.`Restaurante` (`idAtrativo`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT `fk_Restaurante_has_Funcionario_Funcionario1`
-    FOREIGN KEY (`idFunc`)
-    REFERENCES `rede-hoteis`.`Funcionario` (`idFunc`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
+  INDEX `fk_Restaurante_has_Funcionario_Restaurante1_idx` (`idAtrativo` ASC) VISIBLE)
 ENGINE = InnoDB;
 
 
@@ -210,19 +166,9 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `rede-hoteis`.`trabalha-em-academia` (
   `idAtrativo` INT(3) NOT NULL,
   `idFunc` INT(6) NOT NULL,
-  PRIMARY KEY (`idAtrativo`, `idFunc`),
+  CONSTRAINT pk_trabalhaAcademia PRIMARY KEY (`idAtrativo`, `idFunc`),
   INDEX `fk_Academia_has_Funcionario_Funcionario1_idx` (`idFunc` ASC) VISIBLE,
-  INDEX `fk_Academia_has_Funcionario_Academia1_idx` (`idAtrativo` ASC) VISIBLE,
-  CONSTRAINT `fk_Academia_has_Funcionario_Academia1`
-    FOREIGN KEY (`idAtrativo`)
-    REFERENCES `rede-hoteis`.`Academia` (`idAtrativo`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT `fk_Academia_has_Funcionario_Funcionario1`
-    FOREIGN KEY (`idFunc`)
-    REFERENCES `rede-hoteis`.`Funcionario` (`idFunc`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
+  INDEX `fk_Academia_has_Funcionario_Academia1_idx` (`idAtrativo` ASC) VISIBLE)
 ENGINE = InnoDB;
 
 
@@ -232,19 +178,9 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `rede-hoteis`.`é-empregado-por` (
   `idUnidade` INT(3) NOT NULL,
   `idFunc` INT(6) NOT NULL,
-  PRIMARY KEY (`idUnidade`, `idFunc`),
+  CONSTRAINT pk_EmpregadoPor PRIMARY KEY (`idUnidade`, `idFunc`),
   INDEX `fk_Unidade_has_Funcionario_Funcionario1_idx` (`idFunc` ASC) VISIBLE,
-  INDEX `fk_Unidade_has_Funcionario_Unidade1_idx` (`idUnidade` ASC) VISIBLE,
-  CONSTRAINT `fk_Unidade_has_Funcionario_Unidade1`
-    FOREIGN KEY (`idUnidade`)
-    REFERENCES `rede-hoteis`.`Unidade` (`idUnidade`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT `fk_Unidade_has_Funcionario_Funcionario1`
-    FOREIGN KEY (`idFunc`)
-    REFERENCES `rede-hoteis`.`Funcionario` (`idFunc`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
+  INDEX `fk_Unidade_has_Funcionario_Unidade1_idx` (`idUnidade` ASC) VISIBLE)
 ENGINE = InnoDB;
 
 
@@ -254,19 +190,9 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `rede-hoteis`.`engloba` (
   `idReserva` VARCHAR(8) NOT NULL,
   `idQuarto` INT(3) NOT NULL,
-  PRIMARY KEY (`idReserva`, `idQuarto`),
+  CONSTRAINT pk_Engloba PRIMARY KEY (`idReserva`, `idQuarto`),
   INDEX `fk_Reserva_has_Quarto_Quarto1_idx` (`idQuarto` ASC) VISIBLE,
-  INDEX `fk_Reserva_has_Quarto_Reserva1_idx` (`idReserva` ASC) VISIBLE,
-  CONSTRAINT `fk_Reserva_has_Quarto_Reserva1`
-    FOREIGN KEY (`idReserva`)
-    REFERENCES `rede-hoteis`.`Reserva` (`idReserva`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT `fk_Reserva_has_Quarto_Quarto1`
-    FOREIGN KEY (`idQuarto`)
-    REFERENCES `rede-hoteis`.`Quarto` (`idQuarto`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
+  INDEX `fk_Reserva_has_Quarto_Reserva1_idx` (`idReserva` ASC) VISIBLE)
 ENGINE = InnoDB;
 
 
