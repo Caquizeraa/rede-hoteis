@@ -1,5 +1,5 @@
 -- Inserções na tabela Funcionario
-INSERT INTO `rede-hoteis`.`funcionario` (nome, salario, logradouro, numero, CEP, bairro, cidade, estado, tipoFuncionario) VALUES
+INSERT INTO `rede-hoteis`.`Funcionario` (nome, salario, logradouro, numero, CEP, bairro, cidade, estado, tipoFuncionario) VALUES
 -- Gerentes
 ('Marco Aurélia', 3500.00, 'Rua A', 101, '12345678', 'Centro', 'São Paulo', 'SP', 'Gerente'),
 ('Julio Cesar', 3400.00, 'Rua B', 1010, '01234567', 'Centro', 'Manaus', 'AM', 'Gerente'),
@@ -18,7 +18,7 @@ INSERT INTO `rede-hoteis`.`funcionario` (nome, salario, logradouro, numero, CEP,
 ('Gusttavo Lima', 2700.00, 'Avenida N', 900, '12312312', 'Centro', 'Santos', 'SP', 'Faxineiro');
 
 -- Inserções na tabela Cliente
-INSERT INTO `rede-hoteis`.`cliente` (CPF, nome, logradouro, numero, CEP, bairro, cidade, estado) VALUES
+INSERT INTO `rede-hoteis`.`Cliente` (CPF, nome, logradouro, numero, CEP, bairro, cidade, estado) VALUES
 ('12345678901', 'Pedro Militão', 'Rua Z', 111, '65432109', 'Centro', 'São Paulo', 'SP'),
 ('23456789012', 'Otávio Sbampato', 'Avenida Y', 222, '76543210', 'Jardins', 'Rio de Janeiro', 'RJ'),
 ('34567890123', 'Gabriel Coelho', 'Rua X', 333, '87654321', 'Vila Madalena', 'Belo Horizonte', 'MG'),
@@ -31,7 +31,7 @@ INSERT INTO `rede-hoteis`.`cliente` (CPF, nome, logradouro, numero, CEP, bairro,
 ('01234567890', 'Jane Doe', 'Rua Q', 1000, '54321098', 'Centro', 'Manaus', 'AM');
 
 -- Inserções na tabela Unidade
-INSERT INTO `rede-hoteis`.`unidade` (nome, logradouro, numero, CEP, bairro, cidade, estado, dataInicio, idGerente) VALUES
+INSERT INTO `rede-hoteis`.`Unidade` (nome, logradouro, numero, CEP, bairro, cidade, estado, dataInicio, idGerente) VALUES
 ('Hotel Mercurio', 'Rua AZ', 111, '12309876', 'Centro', 'São Paulo', 'SP', '2020-01-01', 1),
 ('Hotel Venus', 'Avenida BY', 222, '23410987', 'Jardins', 'Rio de Janeiro', 'RJ', '2020-02-01', 1),
 ('Hotel Terra', 'Rua CX', 333, '34521098', 'Vila Madalena', 'Belo Horizonte', 'MG', '2020-03-01', 1),
@@ -44,7 +44,7 @@ INSERT INTO `rede-hoteis`.`unidade` (nome, logradouro, numero, CEP, bairro, cida
 ('Hotel Sol', 'Rua JQ', 1000, '01298765', 'Centro', 'Manaus', 'AM', '2020-10-01', 1);
 
 -- Inserções na tabela Quarto
-INSERT INTO `rede-hoteis`.`quarto` (idUnidade, numQuarto, numCamas, disponibilidade, tipoQuarto) VALUES
+INSERT INTO `rede-hoteis`.`Quarto` (idUnidade, numQuarto, numCamas, disponibilidade, tipoQuarto) VALUES
 -- Disponíveis
 (1, 101, 2, 'D', 'Simples'),
 (1, 102, 1, 'D', 'Simples'),
@@ -62,7 +62,7 @@ INSERT INTO `rede-hoteis`.`quarto` (idUnidade, numQuarto, numCamas, disponibilid
 (2, 902, 1, 'I', 'Simples');
 
 -- Inserções na tabela Atrativo
-INSERT INTO `rede-hoteis`.`atrativo` (nomeAtrativo, idUnidade, numAtrativo) VALUES
+INSERT INTO `rede-hoteis`.`Atrativo` (nomeAtrativo, idUnidade, numAtrativo) VALUES
 -- Academias
 ('Academia Primavera', 1, 100),
 ('Academia Verão', 1, 101),
@@ -77,7 +77,7 @@ INSERT INTO `rede-hoteis`.`atrativo` (nomeAtrativo, idUnidade, numAtrativo) VALU
 ('Restaurante Kids', 10, 801);
 
 -- Inserções na tabela Reserva
-INSERT INTO `rede-hoteis`.`reserva` (idReserva, valorTotal, dataCheckIn, dataCheckOut, idCliente) VALUES
+INSERT INTO `rede-hoteis`.`Reserva` (idReserva, valorTotal, dataCheckIn, dataCheckOut, idCliente) VALUES
 ('R001', 1200.00, '2024-08-01', '2024-08-05', 1),
 ('R002', 800.00, '2024-08-02', '2024-08-06', 2),
 ('R003', 1500.00, '2024-08-03', '2024-08-07', 3),
@@ -104,7 +104,7 @@ INSERT INTO `rede-hoteis`.`engloba` (idReserva, idQuarto) VALUES
 ('R010', 13);
 
 -- Inserções na tabela Telefone
-INSERT INTO `rede-hoteis`.`telefone` (idCliente, telefone) VALUES
+INSERT INTO `rede-hoteis`.`Telefone` (idCliente, telefone) VALUES
 -- Mais de 1 (por cliente)
 (1, '11987654321'),
 (1, '11121314151'),
@@ -123,7 +123,7 @@ INSERT INTO `rede-hoteis`.`telefone` (idCliente, telefone) VALUES
 (10, '01987654321');
 
 -- Inserções na tabela Academia
-INSERT INTO `rede-hoteis`.`academia` (idAtrativo, numAparelhos) VALUES
+INSERT INTO `rede-hoteis`.`Academia` (idAtrativo, numAparelhos) VALUES
 (1, 10),
 (2, 13),
 (3, 15),
@@ -131,7 +131,7 @@ INSERT INTO `rede-hoteis`.`academia` (idAtrativo, numAparelhos) VALUES
 (5, 6);
 
 -- Inserções na tabela Restaurante
-INSERT INTO `rede-hoteis`.`restaurante` (idAtrativo, estrelas, numMesas) VALUES
+INSERT INTO `rede-hoteis`.`Restaurante` (idAtrativo, estrelas, numMesas) VALUES
 (6, 5, 9),
 (7, 3, 12),
 (8, 4, 15),
