@@ -6,16 +6,16 @@ header("Content-Type: text/html; charset=utf-8", true);
     <title>Lista de Clientes</title>
     <style>
           .tituloColuna {
-              background-color: ;
               color: black;
+              text-align: center;
           }
           .tituloCelula {
               background-color: #581845;
-              color: #ff5773;
+              text-align: center;
           }
       </style>
   </head>
-  <body style="background-color: #ffc30f;">
+  <body>
     <center><h3 style="color:#660014; font-size: 26px;">Lista de Clientes</h3></center>
     <form name="form1" method="POST" action="form_incluir.php">
       <table border="0" align="center" width="100%">
@@ -32,7 +32,7 @@ header("Content-Type: text/html; charset=utf-8", true);
       <?php
       } else {
       ?>
-          <tr style="background-color: #00796b; color: white;"> 
+          <tr style="color: white;"> 
             <td class="tituloCelula" width="15%">Nome</td>
             <td class="tituloCelula" width="10%">CPF</td>
             <td class="tituloCelula" width="15%">Logradouro</td>
