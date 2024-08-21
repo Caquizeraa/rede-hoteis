@@ -1,5 +1,5 @@
 <?php
-header("Content-Type: text/html; charset=iso-8859-1", true);
+header("Content-Type: text/html; charset=utf-8", true);
 ?>
 <html>
 <head><title>Incluir/Editar um cliente.</title></head>
